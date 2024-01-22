@@ -51,6 +51,21 @@ export default function Home() {
     }
   };
 
+  const deleteProduct = async (id) => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:8000/api/productos/${id}`
+      );
+      const result = await response.data;
+      setTitle("");
+      setPrecio(0);
+      setDesc("");
+      Productos();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <main style={{ margin: "10px 40%" }}>
       <form onSubmit={handleCreateProduct}>
@@ -90,7 +105,10 @@ export default function Home() {
         <h2>Productos</h2>
         {productos.map((valor, indice) => (
           <h3 key={indice}>
-            <Link href={`./${valor._id}`}>{valor.title}</Link>
+            <Link href={`./${valor._id}`}>{valor.title} --</Link>
+            <Link href={`./${valor._id}/edit`}>Editar</Link>
+
+            <button onClick={() => deleteProduct(valor._id)}>Borrar</button>
           </h3>
         ))}
       </div>
